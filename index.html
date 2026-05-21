@@ -9,7 +9,12 @@
   <link rel="stylesheet" href="css/common.css" />
   <link rel="stylesheet" href="css/landing.css" />
 
-  <!-- Ранняя установка темы (без мигания при загрузке) -->
+  <!--
+    Переключение темы на главной странице:
+    1) theme-init.js — сразу применяет сохранённую тему из localStorage
+    2) скрипт в конце страницы — кнопки «Светлая / Тёмная» в шапке и в углу
+    Ключ хранения: familyBudgetTheme (значения "light" или "dark")
+  -->
   <script src="js/theme-init.js"></script>
 </head>
 
@@ -21,6 +26,17 @@
       <div class="site-nav__links">
         <a class="site-nav__link site-nav__link--active" href="index.html">Главная</a>
         <a class="site-nav__link" href="budget.html">Калькулятор</a>
+        <!-- Кнопка переключения темы в шапке (светлая ↔ тёмная) -->
+        <button
+          type="button"
+          class="site-nav__theme js-theme-toggle"
+          id="themeToggleNav"
+          aria-label="Переключить на тёмную тему"
+          title="Тёмная тема"
+        >
+          <span class="js-theme-icon" aria-hidden="true">🌙</span>
+          <span class="js-theme-label">Тёмная</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -102,21 +118,102 @@
     <p>Проект «Семейный бюджет» · учебный репозиторий · данные хранятся только в вашем браузере</p>
   </footer>
 
-  <!-- Переключатель светлой / тёмной темы -->
+  <!--
+    Дублирующая кнопка темы в правом нижнем углу
+    (удобно на мобильных; работает вместе с кнопкой в шапке)
+  -->
   <button
     type="button"
-    class="theme-toggle"
-    id="themeToggle"
-    aria-label="Переключить тему"
-    title="Переключить тему"
+    class="theme-toggle js-theme-toggle"
+    id="themeToggleFloat"
+    aria-label="Переключить на тёмную тему"
+    title="Тёмная тема"
   >
-    <span id="themeToggleIcon" aria-hidden="true">🌙</span>
+    <span class="js-theme-icon" aria-hidden="true">🌙</span>
   </button>
 
   <script src="js/landing.js"></script>
-  <script src="js/theme.js"></script>
+
+  <!-- Логика переключения светлой и тёмной темы (только для index.html) -->
+  <script>
+    (function () {
+      var THEME_KEY = "familyBudgetTheme";
+      var toggleButtons = document.querySelectorAll(".js-theme-toggle");
+
+      function getTheme() {
+        return document.documentElement.getAttribute("data-theme") === "dark"
+          ? "dark"
+          : "light";
+      }
+
+      function updateButtons(theme) {
+        toggleButtons.forEach(function (btn) {
+          var icon = btn.querySelector(".js-theme-icon");
+          var label = btn.querySelector(".js-theme-label");
+
+          if (theme === "dark") {
+            if (icon) icon.textContent = "☀️";
+            if (label) label.textContent = "Светлая";
+            btn.setAttribute("aria-label", "Включить светлую тему");
+            btn.title = "Светлая тема";
+          } else {
+            if (icon) icon.textContent = "🌙";
+            if (label) label.textContent = "Тёмная";
+            btn.setAttribute("aria-label", "Включить тёмную тему");
+            btn.title = "Тёмная тема";
+          }
+        });
+      }
+
+      function applyTheme(theme) {
+        if (theme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          document.documentElement.removeAttribute("data-theme");
+        }
+        localStorage.setItem(THEME_KEY, theme);
+        updateButtons(theme);
+      }
+
+      function toggleTheme() {
+        applyTheme(getTheme() === "dark" ? "light" : "dark");
+      }
+
+      toggleButtons.forEach(function (btn) {
+        btn.addEventListener("click", toggleTheme);
+      });
+
+      updateButtons(getTheme());
+    })();
+  </script>
 
   <style>
+    /* Кнопка темы в навигации */
+    .site-nav__theme {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border: 1px solid var(--border-input);
+      border-radius: 10px;
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .site-nav__theme:hover {
+      border-color: var(--btn-primary);
+      background: var(--accent-soft);
+    }
+
+    .site-nav__theme .js-theme-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
     /* Скрытый заголовок для доступности (секция features) */
     .visually-hidden {
       position: absolute;
