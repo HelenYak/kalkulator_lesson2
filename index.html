@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Семейный бюджет — простой учёт доходов и расходов в браузере." />
+  <title>Семейный бюджет — главная</title>
+
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+
+  <!-- Ранняя установка темы (без мигания при загрузке) -->
+  <script src="js/theme-init.js"></script>
+</head>
+
+<body>
+  <!-- Верхняя навигация сайта -->
+  <nav class="site-nav" aria-label="Основная навигация">
+    <div class="site-nav__inner">
+      <a class="site-nav__logo" href="index.html">Семейный бюджет</a>
+      <div class="site-nav__links">
+        <a class="site-nav__link site-nav__link--active" href="index.html">Главная</a>
+        <a class="site-nav__link" href="budget.html">Калькулятор</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="landing container">
+    <!-- Приветственный блок (hero) -->
+    <section class="hero">
+      <span class="hero__badge">Добро пожаловать</span>
+      <h1>Управляйте семейным бюджетом спокойно и наглядно</h1>
+      <p class="hero__lead">
+        Записывайте доходы и расходы, следите за остатком и долей трат —
+        всё работает прямо в браузере, без регистрации и установки.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="budget.html">Открыть калькулятор</a>
+        <a class="btn btn--outline" href="#features">Узнать возможности</a>
+      </div>
+    </section>
+
+    <!-- Краткий обзор сохранённых данных (если уже есть операции) -->
+    <section class="preview" aria-labelledby="preview-title">
+      <h2 id="preview-title">Ваш бюджет сейчас</h2>
+      <div id="budgetPreview">
+        <p class="preview__empty">Загрузка…</p>
+      </div>
+    </section>
+
+    <!-- Основные возможности приложения -->
+    <section class="features" id="features" aria-labelledby="features-title">
+      <h2 id="features-title" class="visually-hidden">Возможности</h2>
+
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">📊</div>
+        <h3>Сводка в цифрах</h3>
+        <p>Доходы, расходы, остаток и процент нагрузки — всегда перед глазами.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">📝</div>
+        <h3>История операций</h3>
+        <p>Фильтры и сортировка помогают быстро найти нужную запись.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">💾</div>
+        <h3>Данные в браузере</h3>
+        <p>Записи сохраняются локально — можно закрыть вкладку и вернуться позже.</p>
+      </article>
+    </section>
+
+    <!-- Как начать работу — три шага -->
+    <section class="steps" aria-labelledby="steps-title">
+      <h2 id="steps-title">Как начать</h2>
+      <ol class="steps__list">
+        <li class="steps__item">
+          <h3>Откройте калькулятор</h3>
+          <p>Перейдите на страницу учёта операций по кнопке выше.</p>
+        </li>
+        <li class="steps__item">
+          <h3>Добавьте доходы и расходы</h3>
+          <p>Укажите категорию, сумму и дату — комментарий по желанию.</p>
+        </li>
+        <li class="steps__item">
+          <h3>Следите за балансом</h3>
+          <p>Смотрите остаток и шкалу финансовой нагрузки на той же странице.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Призыв к действию в конце лендинга -->
+    <section class="cta-block" aria-labelledby="cta-title">
+      <h2 id="cta-title">Готовы вести бюджет?</h2>
+      <p>Начните с одной операции — калькулятор сразу покажет итоги.</p>
+      <a class="btn btn--primary" href="budget.html">Перейти к калькулятору</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Проект «Семейный бюджет» · учебный репозиторий · данные хранятся только в вашем браузере</p>
+  </footer>
+
+  <!-- Переключатель светлой / тёмной темы -->
+  <button
+    type="button"
+    class="theme-toggle"
+    id="themeToggle"
+    aria-label="Переключить тему"
+    title="Переключить тему"
+  >
+    <span id="themeToggleIcon" aria-hidden="true">🌙</span>
+  </button>
+
+  <script src="js/landing.js"></script>
+  <script src="js/theme.js"></script>
+
+  <style>
+    /* Скрытый заголовок для доступности (секция features) */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
+</body>
+</html>
